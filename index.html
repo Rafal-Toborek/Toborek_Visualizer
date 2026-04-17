@@ -4,15 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visualizer</title>
+    <style>
+        table td {
+            border: 1px solid rgb(0, 0, 0);
+            padding: 10px;
+        }
+    </style>
     <script src="script.js" defer></script>
+    <script src="styles.css"></script>
 </head>
-<body>
-    <input type="text" id="numberInput">
-    <button id="submitButton">Submit</button>
-    
-</body>
-
-    <table id="table">
+    <body>
+        <table id="table" style="border: 2px solid rgb(0, 0, 0); border-collapse: collapse;">
         
-    </table>
+        </table>
+        <p>Length:</p> 
+        <input type="text" id="LengthInput">
+        <p>Width:</p>
+        <input type="text" id="WidthInput">
+        <p>Start</p>
+        <input type="text" id="StartInput">
+        <p>Target</p>
+        <input type="text" id="TargetInput">
+        <button id="submitButton">Submit</button>
+        
+    </body>
 </html>
