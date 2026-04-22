@@ -67,23 +67,36 @@ function colorTargetCell(targetX, targetY) {
 
 function bfs(startX, startY, targetX, targetY) {
     let queue = [];
-    let visited = [];
+    let visited = new Set();
     queue.push([startX, startY]);
-    visited.push([startX, startY]);
+    visited.add(`${startX},${startY}`);
+    console.log(queue);
+    let targetCell = table.rows[targetX]?.cells[targetY];
 
     while (queue.length > 0) {
-        console.log(queue);
-        if (queue[0][0] === targetX && queue[0][1] === targetY) {
-            console.log('Target found');
-            break;
+    let current = queue.shift();
+    let [x, y] = current;
+
+    if (x === targetX && y === targetY) {
+        console.log('Target found');
+        targetCell.style.backgroundColor = 'red';
+        break;
+        console.log(visited);
+    }
+
+    let neighbors = getNeighbors(x, y);
+    for (let neighbor of neighbors) {
+        let nx = neighbor[0];
+        let ny = neighbor[1];
+        let key = `${nx},${ny}`;
+        if (!visited.has(key)) {
+            visited.add(key);
+            queue.push(neighbor);
+            let cell = table.rows[nx]?.cells[ny];
+            if (cell) cell.style.backgroundColor = 'lightyellow';
         }
-        let current = queue.shift();
-        let neighbors = getNeighbors(current[0], current[1]);
-        current.style.backgroundColor = 'yellow';
-        for (let i = 0; i < neighbors.length; i++) {
-            let neighbor = neighbors[i];
-            }
-        }
+    }
+}
     function getNeighbors(x, y) {
         let neighbors = [];
         if (x > 0) {
@@ -92,7 +105,6 @@ function bfs(startX, startY, targetX, targetY) {
         if (x < mainArray.length - 1) {
             neighbors.push([x + 1, y]);
         }
-    }
         if (y > 0) {
             neighbors.push([x, y - 1]);
         }
@@ -101,4 +113,4 @@ function bfs(startX, startY, targetX, targetY) {
         }
         return neighbors;
     }
-
+}
