@@ -93,7 +93,7 @@ function bfs(startX, startY, targetX, targetY) {
             visited.add(key);
             queue.push(neighbor);
             let cell = table.rows[nx]?.cells[ny];
-            if (cell) cell.style.backgroundColor = 'lightyellow';
+            cell.style.backgroundColor = 'lightyellow';
         }
     }
 }
