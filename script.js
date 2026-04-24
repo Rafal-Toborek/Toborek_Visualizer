@@ -7,21 +7,6 @@ let targetXInput = document.getElementById('TargetXInput');
 let targetYInput = document.getElementById('TargetYInput');
 let submitButton = document.getElementById('submitButton');
 let table = document.getElementById('table');
-let wallxInput = document.getElementById('WallxInput');
-let wallyInput = document.getElementById('WallyInput');
-let addWallsButton = document.getElementById('addWallsButton');
-let wallInput = document.getElementById('wallInput');
-
-addWallsButton.addEventListener('click', addingWallInput());
-
-function addingWallInput() {
-    let wallXInput = document.createElement('input');
-    wallXInput.setAttribute('type', 'text');
-    wallXInput.setAttribute('id', 'WallxInput');
-    let wallYInput = document.createElement('input');
-    wallYInput.setAttribute('type', 'text');
-    wallYInput.setAttribute('id', 'WallyInput');
-    };
 
 
 submitButton.addEventListener('click', function() {
@@ -83,36 +68,52 @@ function colorTargetCell(targetX, targetY) {
 function bfs(startX, startY, targetX, targetY) {
     let queue = [];
     let visited = new Set();
+    let prev = new Map();
     queue.push([startX, startY]);
     visited.add(`${startX},${startY}`);
-    console.log(queue);
-    let targetCell = table.rows[targetX]?.cells[targetY];
 
+    let found = false;
     while (queue.length > 0) {
-    let current = queue.shift();
-    let [x, y] = current;
+        console.log(queue);
+        let current = queue.shift();
+        let [x, y] = current;
+        if (x === targetX && y === targetY) 
+            { found = true; 
+            break; }
 
-    if (x === targetX && y === targetY) {
-        console.log('Target found');
-        targetCell.style.backgroundColor = 'red';
-        break;
-        console.log(visited);
-    }
-
-    let neighbors = getNeighbors(x, y);
-    for (let neighbor of neighbors) {
-        let nx = neighbor[0];        
-        let ny = neighbor[1];
-        let key = `${nx},${ny}`;
-        console.log(key);
-        if (!visited.has(key)) {
-            visited.add(key);
-            queue.push(neighbor);
-            let cell = table.rows[nx]?.cells[ny];
-            cell.style.backgroundColor = 'lightyellow';
+        let neighbors = getNeighbors(x, y);
+        for (let neighbor of neighbors) {
+            let nx = neighbor[0];
+            let ny = neighbor[1];
+            let key = `${nx},${ny}`;
+            if (!visited.has(key)) {
+                visited.add(key);
+                prev.set(key, `${x},${y}`);
+                queue.push(neighbor);
+                let cell = table.rows[nx]?.cells[ny];
+                if (cell) cell.style.backgroundColor = 'lightyellow';
+            }
         }
     }
-    function addingWalls() {}
+
+    if (found) {
+        let path = [];
+        let cur = `${targetX},${targetY}`;
+        while (cur) {
+            path.push(cur);
+            if (cur === `${startX},${startY}`) 
+            break;
+            cur = prev.get(cur);
+        }
+        path.reverse();
+        for (let k = 0; k < path.length; k++) {
+            const [px, py] = path[k].split(',').map(Number);
+            const cell = table.rows[px]?.cells[py];
+            if (!cell) continue;
+            if (px === startX && py === startY) cell.style.backgroundColor = 'green';
+            else if (px === targetX && py === targetY) cell.style.backgroundColor = 'red';
+            else cell.style.backgroundColor = 'deepskyblue';
+        }
     }
 }
     

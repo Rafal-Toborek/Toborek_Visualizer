@@ -9,6 +9,11 @@
             border: 1px solid rgb(0, 0, 0);
             padding: 10px;
         }
+        body{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
     </style>
     <script src="script.js" defer></script>
 </head>
@@ -27,11 +32,9 @@
         <p>Target x value</p>
         <input type="text" id="TargetXInput">
         <p>Target y value</p>
-        <input type="text" id="TargetYInput">
-        <div id="wallInput">
-            <button id="addWallsButton">Add Walls</button>
-        </div>
-        <button id="submitButton">Submit</button>
+        <input type="text" id="TargetYInput"> <br>
+
+        <button id="submitButton">BFS</button>
         
     </body>
 </html>
